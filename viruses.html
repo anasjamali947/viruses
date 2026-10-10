@@ -4,32 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VBS File Library</title>
+  <title>Anas | Virus Library</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
       padding: 25px;
       background: #0b1020;
-      color: #e5e7eb;
+      color: white;
       font-family: Arial, sans-serif;
     }
 
-    .container {
+    main {
       max-width: 850px;
       margin: 30px auto;
     }
 
     h1 {
-      color: #60a5fa;
       text-align: center;
+      color: #60a5fa;
     }
 
-    .subtitle {
+    .info {
       text-align: center;
       color: #9ca3af;
       margin-bottom: 30px;
@@ -39,134 +35,94 @@
       background: #151d30;
       border: 1px solid #29364d;
       padding: 18px;
-      margin-bottom: 15px;
       border-radius: 12px;
+      margin-bottom: 15px;
     }
 
-    .file h3 {
-      margin-top: 0;
-      overflow-wrap: anywhere;
-    }
-
-    .file p {
-      color: #9ca3af;
-      font-size: 14px;
-    }
-
-    a, button {
+    .file a, .file button {
       display: inline-block;
+      margin: 5px 5px 0 0;
+      padding: 10px 14px;
       background: #2563eb;
       color: white;
-      padding: 10px 14px;
-      margin: 5px 5px 0 0;
-      border: none;
+      border: 0;
       border-radius: 7px;
       text-decoration: none;
       cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover, a:hover {
-      background: #1d4ed8;
     }
 
     pre {
       display: none;
       background: #080c16;
+      color: #86efac;
       padding: 15px;
+      border-radius: 8px;
       overflow: auto;
       white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      border-radius: 8px;
-      color: #86efac;
-      max-height: 400px;
-    }
-
-    footer {
-      text-align: center;
-      color: #6b7280;
-      margin-top: 40px;
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
-    <h1>⚡ VBS File Library</h1>
-    <p class="subtitle">
-      Browse, preview and download my VBScript files
-    </p>
+<main>
+  <h1>⚡ VBS FILE LIBRARY</h1>
+  <p class="info">View and download my created viruses files dont misuse you can prank on your frindes do it only plz</p>
 
-    <section id="fileList"></section>
-
-    <footer>My Static File Library | GitHub Pages</footer>
-  </main>
+  <div id="library"></div>
 
   <script>
-    // Add your VBS filenames here.
+    // Write your actual VBS filenames here.
     const files = [
-      {
-        name: "hello.vbs",
-        description: "Example VBScript file",
-        url: "files/hello.vbs"
-      },
-      {
-        name: "calculator.vbs",
-        description: "Another VBScript example",
-        url: "files/calculator.vbs"
-      }
+      "aimbot.vbs",
+      "mrtyper.vbs",
+      "typingspeed.vbs"
+       "game.vbs",
+      "headshot.vbs"
     ];
 
-    const fileList = document.getElementById("fileList");
+    const library = document.getElementById("library");
 
-    files.forEach((file, index) => {
-      const card = document.createElement("article");
+    files.forEach(filename => {
+      const card = document.createElement("section");
       card.className = "file";
 
-      const heading = document.createElement("h3");
-      heading.textContent = "📄 " + file.name;
+      const title = document.createElement("h3");
+      title.textContent = "📄 " + filename;
 
-      const description = document.createElement("p");
-      description.textContent = file.description;
-
-      const preview = document.createElement("button");
-      preview.textContent = "View Code";
+      const view = document.createElement("button");
+      view.textContent = "View Code";
 
       const download = document.createElement("a");
-      download.href = file.url;
-      download.download = file.name;
-      download.textContent = "Download VBS";
+      download.href = filename;
+      download.download = filename;
+      download.textContent = "Download";
 
       const code = document.createElement("pre");
-      code.textContent = "Loading...";
 
-      preview.addEventListener("click", async () => {
+      view.onclick = async () => {
         if (code.style.display === "block") {
           code.style.display = "none";
-          preview.textContent = "View Code";
+          view.textContent = "View Code";
           return;
         }
 
         try {
-          const response = await fetch(file.url);
-
-          if (!response.ok) {
-            throw new Error("File not found");
-          }
+          const response = await fetch(filename);
+          if (!response.ok) throw new Error("File unavailable");
 
           code.textContent = await response.text();
           code.style.display = "block";
-          preview.textContent = "Hide Code";
+          view.textContent = "Hide Code";
         } catch {
-          code.textContent =
-            "Could not load this file. Check its path and filename.";
+          code.textContent = "Unable to load file. Check the filename and repository path.";
           code.style.display = "block";
         }
-      });
+      };
 
-      card.append(heading, description, preview, download, code);
-      fileList.appendChild(card);
+      card.append(title, view, download, code);
+      library.appendChild(card);
     });
   </script>
+</main>
 </body>
 </html>
