@@ -2,127 +2,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anas | Virus Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anas | VBS Library</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 25px;
-      background: #0b1020;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-
-    main {
-      max-width: 850px;
-      margin: 30px auto;
-    }
-
-    h1 {
-      text-align: center;
-      color: #60a5fa;
-    }
-
-    .info {
-      text-align: center;
-      color: #9ca3af;
-      margin-bottom: 30px;
-    }
-
-    .file {
-      background: #151d30;
-      border: 1px solid #29364d;
-      padding: 18px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-
-    .file a, .file button {
-      display: inline-block;
-      margin: 5px 5px 0 0;
-      padding: 10px 14px;
-      background: #2563eb;
-      color: white;
-      border: 0;
-      border-radius: 7px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    pre {
-      display: none;
-      background: #080c16;
-      color: #86efac;
-      padding: 15px;
-      border-radius: 8px;
-      overflow: auto;
-      white-space: pre-wrap;
-    }
-  </style>
+<style>
+body {
+  background: #0b1020;
+  color: white;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+}
+h1 {
+  color: #60a5fa;
+  text-align: center;
+}
+.file {
+  background: #151d30;
+  border: 1px solid #29364d;
+  border-radius: 10px;
+  padding: 18px;
+  margin: 15px 0;
+}
+a, button {
+  display: inline-block;
+  padding: 10px 14px;
+  margin: 5px 5px 0 0;
+  background: #2563eb;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+pre {
+  display: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+  background: #080c16;
+  color: #86efac;
+  padding: 15px;
+  border-radius: 8px;
+}
+</style>
 </head>
 
 <body>
-<main>
+<div class="container">
   <h1>⚡ VBS FILE LIBRARY</h1>
-  <p class="info">View and download my created viruses files dont misuse you can prank on your frindes do it only plz</p>
-
+  <p>My VBScript files — view or download</p>
   <div id="library"></div>
+</div>
 
-  <script>
-    // Write your actual VBS filenames here.
-    const files = [
-      "aimbot.vbs",
-      "mrtyper.vbs",
-      "typingspeed.vbs"
-       "game.vbs",
-      "headshot.vbs"
-    ];
+<script>
+const files = [
+  "aimbot.vbs",
+  "game.vbs",
+  "headshot.vbs"
+   "mr typer.vbs",
+  "typingspeed.vbs"
+];
 
-    const library = document.getElementById("library");
+const library = document.getElementById("library");
 
-    files.forEach(filename => {
-      const card = document.createElement("section");
-      card.className = "file";
+files.forEach(filename => {
+  const card = document.createElement("div");
+  card.className = "file";
 
-      const title = document.createElement("h3");
-      title.textContent = "📄 " + filename;
+  const title = document.createElement("h3");
+  title.textContent = "📄 " + filename;
 
-      const view = document.createElement("button");
+  const view = document.createElement("button");
+  view.textContent = "View Code";
+
+  const download = document.createElement("a");
+  download.href = filename;
+  download.download = filename;
+  download.textContent = "Download File";
+
+  const code = document.createElement("pre");
+
+  view.onclick = async () => {
+    if (code.style.display === "block") {
+      code.style.display = "none";
       view.textContent = "View Code";
+      return;
+    }
 
-      const download = document.createElement("a");
-      download.href = filename;
-      download.download = filename;
-      download.textContent = "Download";
+    try {
+      const response = await fetch(filename);
+      if (!response.ok) throw new Error("Not found");
 
-      const code = document.createElement("pre");
+      code.textContent = await response.text();
+      code.style.display = "block";
+      view.textContent = "Hide Code";
+    } catch {
+      code.textContent = "File could not be loaded. Check the filename.";
+      code.style.display = "block";
+    }
+  };
 
-      view.onclick = async () => {
-        if (code.style.display === "block") {
-          code.style.display = "none";
-          view.textContent = "View Code";
-          return;
-        }
-
-        try {
-          const response = await fetch(filename);
-          if (!response.ok) throw new Error("File unavailable");
-
-          code.textContent = await response.text();
-          code.style.display = "block";
-          view.textContent = "Hide Code";
-        } catch {
-          code.textContent = "Unable to load file. Check the filename and repository path.";
-          code.style.display = "block";
-        }
-      };
-
-      card.append(title, view, download, code);
-      library.appendChild(card);
-    });
-  </script>
-</main>
+  card.append(title, view, download, code);
+  library.appendChild(card);
+});
+</script>
 </body>
 </html>
